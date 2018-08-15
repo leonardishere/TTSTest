@@ -9,8 +9,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import java.util.HashMap;
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     private EditText editText = null;
@@ -50,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
                         addStatus("TTS error");
                     }
                 });
+            }
+        });
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://test.aleonard.corp.he.net/spoken_tutor/select_all_subjects.php", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                addStatus("http success: " + new String(bytes));
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                addStatus("http failure: " + throwable.toString());
             }
         });
     }
